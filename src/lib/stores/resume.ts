@@ -29,9 +29,24 @@ import WaterLooImg from '../imgs/waterloo.png';
 const createResumeStore = () => {
 	const { subscribe, set } = writable({});
 
+	const toLocaleString = async (date: Date) => {
+		await waitLocale(); // Ensure the locale is loaded
+		const currentLocale = get(locale) || 'en-US';
+
+		// Validate the locale
+		const validLocales = ['en-US', 'fr-FR']; // Add other valid locales as needed
+		const localeToUse = validLocales.includes(currentLocale) ? currentLocale : 'en-US';
+
+		return date.toLocaleString(localeToUse, {
+			month: 'short',
+			year: 'numeric',
+		});
+	}
+
 	const updateResume = async () => {
 		await waitLocale();
 
+		const l = get(locale);
 		set({
 			name: 'Axel Deneu',
 			email: 'hello@aden.solutions',
@@ -112,14 +127,8 @@ const createResumeStore = () => {
 					location: __('Full Remote'),
 					title: __('Lead Web Developer'),
 					logoUrl: MyLittleTripImg,
-					start: (new Date('2022-11-02')).toLocaleString(get(locale), {
-						month: 'short',
-						year: 'numeric',
-					}),
-					end: (new Date('2024-10-09')).toLocaleString(get(locale), {
-						month: 'long',
-						year: 'numeric',
-					}),
+					start: toLocaleString(new Date('2022-11-02')),
+					end: toLocaleString(new Date('2024-10-09')),
 					description:
 						__('MyLittleTrip Description')
 				},
@@ -130,14 +139,8 @@ const createResumeStore = () => {
 					location: 'Le Mans, France',
 					title: __('Lead Web Developer'),
 					logoUrl: ModoImg,
-					start: (new Date('2020-10-01')).toLocaleString(get(locale), {
-						month: 'short',
-						year: 'numeric',
-					}),
-					end: (new Date('2022-11-02')).toLocaleString(get(locale), {
-						month: 'short',
-						year: 'numeric',
-					}),
+					start: toLocaleString(new Date('2020-10-01')),
+					end: toLocaleString(new Date('2022-11-02')),
 					description:
 						__('Modo Lead Description'),
 					technologies: ['PHP', 'WordPress', 'Laravel', 'Elementor', 'MySQL', 'Vue.JS', 'jQuery']
@@ -149,14 +152,8 @@ const createResumeStore = () => {
 					location: 'Le Mans, France',
 					title: __('Web Developer'),
 					logoUrl: ModoImg,
-					start: (new Date('2019-04-01')).toLocaleString(get(locale), {
-						month: 'short',
-						year: 'numeric',
-					}),
-					end: (new Date('2020-10-01')).toLocaleString(get(locale), {
-						month: 'short',
-						year: 'numeric',
-					}),
+					start: toLocaleString(new Date('2019-04-01')),
+					end: toLocaleString(new Date('2020-10-01')),
 					description:
 						__('Modo Description'),
 					technologies: ['PHP', 'WordPress', 'Laravel', 'Elementor', 'MySQL', 'Vue.JS', 'jQuery']
@@ -168,14 +165,8 @@ const createResumeStore = () => {
 					location: 'Angers, France',
 					title: __('Web Developer'),
 					logoUrl: GamecashImg,
-					start: (new Date('2017-08-01')).toLocaleString(get(locale), {
-						month: 'short',
-						year: 'numeric',
-					}),
-					end: (new Date('2019-04-01')).toLocaleString(get(locale), {
-						month: 'short',
-						year: 'numeric',
-					}),
+					start: toLocaleString(new Date('2017-08-01')),
+					end: toLocaleString(new Date('2019-04-01')),
 					description:
 						__('Gamecash Description'),
 					technologies: ['PHP', __('Custom MVC Framework'), 'MySQL', 'LESS', 'jQuery']
