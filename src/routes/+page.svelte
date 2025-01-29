@@ -56,7 +56,7 @@
 </svelte:head>
 <main class="flex min-h-[100dvh] flex-col space-y-10">
 	<section id="hero" class="relative">
-		<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[133%] h-[150%] z-0">
+		<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full md:w-[133%] h-[150%] z-0">
 			{#key $mode}
 				<Particles className="absolute inset-0" refresh={true} color={$mode === "dark" ? "#ffffff" : "#000000"} />
 			{/key}

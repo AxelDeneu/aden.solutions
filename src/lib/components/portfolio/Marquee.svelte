@@ -40,7 +40,7 @@
 	<!-- Marquee track with logo images -->
 	<div class="flex items-center whitespace-nowrap animate-marquee w-max pointer-events-none" bind:this={track}>
 		{#each duplicatedLogos as logo}
-			<img src={logo} alt="Client Logo" class="h-16 max-w-32 object-contain object-center mx-6 grayscale invert dark:invert-0 py-2 select-none opacity-60"/>
+			<img src={logo} alt="Client Logo" class="h-14 md:h-16 max-w-28 md:max-w-32 object-contain object-center mx-4 md:mx-6 grayscale invert dark:invert-0 py-2 select-none opacity-60"/>
 		{/each}
 	</div>
 </div>
