@@ -1,18 +1,34 @@
 <script>
 	import BlurFade from '$lib/components/magic/BlurFade.svelte';
-	import HackathonCard from '$lib/components/portfolio/HackathonCard.svelte';
 	import ProjectCard from '$lib/components/portfolio/ProjectCard.svelte';
 	import ResumeCard from '$lib/components/portfolio/ResumeCard.svelte';
-	import * as Avatar from '$lib/components/ui/avatar';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import * as Avatar from '$lib/components/ui/avatar';
+	import Particles from '$lib/components/magic/Particles.svelte';
+	import Marquee from '$lib/components/portfolio/Marquee.svelte';
 	import { resumeStore } from '$lib/stores/resume';
 	import { marked } from 'marked';
 	import { mode } from 'mode-watcher';
-	import Particles from '$lib/components/magic/Particles.svelte';
-	
+
+	import YamarkLogo from '$lib/imgs/yamark.png';
+	import ScaniaLogo from '$lib/imgs/scania.webp';
+	import LaMieCalineLogo from '$lib/imgs/lamiecaline.png';
+	import GrossetFournier from '$lib/imgs/grossetfournier.png';
+	import Leclerc from '$lib/imgs/leclerc.png';
+	import GeneralElectric from '$lib/imgs/ge.png';
+
 	import { __ } from '$lib/i18n';
 
 	let BLUR_FADE_DELAY = 0.04;
+
+	let clientLogos = [
+		YamarkLogo,
+		ScaniaLogo,
+		LaMieCalineLogo,
+		GrossetFournier,
+		Leclerc,
+		GeneralElectric
+	]
 </script>
 
 <svelte:head>
@@ -38,7 +54,6 @@
 	<meta name="google-site-verification" content="your-google-verification-code" />
 	<meta name="yandex-verification" content="your-yandex-verification-code" />
 </svelte:head>
-{#if $resumeStore.name}
 <main class="flex min-h-[100dvh] flex-col space-y-10">
 	<section id="hero" class="relative">
 		<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[133%] h-[150%] z-0">
@@ -78,6 +93,16 @@
 				{@html marked($resumeStore.summary)}
 			</div>
 		</BlurFade>
+	</section>
+	<section id="customers">
+		<div class="flex min-h-0 flex-col gap-y-3">
+			<BlurFade delay={BLUR_FADE_DELAY}>
+				<h2 class="text-xl font-bold">{$resumeStore.customersLabel}</h2>
+			</BlurFade>
+			<BlurFade delay={BLUR_FADE_DELAY * 1.4}>
+				<Marquee logos={clientLogos} />
+			</BlurFade>
+		</div>
 	</section>
 	<section id="work">
 		<div class="flex min-h-0 flex-col gap-y-3">
@@ -176,7 +201,7 @@
 						<a
 							href={`mailto:${$resumeStore.email}`}
 							class="text-primary hover:underline">
-							{$resumeStore.email}
+							{$resumeStore.contact.email}
 						</a>
 					</p>
 				</div>
@@ -184,4 +209,3 @@
 		</div>
 	</section>
 </main>
-{/if}

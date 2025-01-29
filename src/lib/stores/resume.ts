@@ -36,7 +36,6 @@ const createResumeStore = () => {
 	const updateResume = () => {
 		set({
 			name: 'Axel Deneu',
-			email: 'hello@aden.solutions',
 			initials: 'AD',
 			url: 'https://github.com/AxelDeneu',
 			img: 'https://avatars.githubusercontent.com/u/22771331?v=4',
@@ -106,6 +105,7 @@ const createResumeStore = () => {
 					}
 				}
 			},
+			customersLabel: getText('My Customers'),
 			work: [
 				{
 					company: 'MyLittleTrip',
