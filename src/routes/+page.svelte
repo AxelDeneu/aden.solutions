@@ -38,6 +38,7 @@
 	<meta name="google-site-verification" content="your-google-verification-code" />
 	<meta name="yandex-verification" content="your-yandex-verification-code" />
 </svelte:head>
+{#if $resumeStore.name}
 <main class="flex min-h-[100dvh] flex-col space-y-10">
 	<section id="hero" class="relative">
 		<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[133%] h-[150%] z-0">
@@ -183,3 +184,4 @@
 		</div>
 	</section>
 </main>
+{/if}

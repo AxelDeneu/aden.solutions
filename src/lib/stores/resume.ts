@@ -1,41 +1,31 @@
 import { get, writable } from 'svelte/store';
-import { __ } from '../i18n';
-import { waitLocale, locale } from 'svelte-i18n';
-import { CodeIcon, Github, Globe, HomeIcon, NotebookIcon, Youtube } from 'lucide-svelte';
-import BuildSpaceImg from '../imgs/buildspace.jpg';
+import { getText } from '../i18n';
+import { locale } from 'svelte-i18n';
+import { Github, HomeIcon } from 'lucide-svelte';
 import GithubSvg from '../imgs/github.svg';
 import GithubDarkSvg from '../imgs/github-dark.svg';
 import GamecashImg from '../imgs/gamecash.png';
 import GmailSvg from '../imgs/gmail.svg';
 import GmailDarkSvg from '../imgs/gmail-dark.svg';
-import IBImg from '../imgs/ib.png';
 import ImieImg from '../imgs/imie.png';
-import LaurierImg from '../imgs/laurier.png';
-import LimeSvg from '../imgs/lime.svg';
 import LinkedinSvg from '../imgs/linkedin.svg';
 import LinkedinDarkSvg from '../imgs/linkedin-dark.svg';
-import MitreMediaImg from '../imgs/mitremedia.png';
 import ModoImg from '../imgs/modo.png';
 import MyLittleTripImg from '../imgs/mylittletrip.png';
-import NvidiaImg from '../imgs/nvidia.png';
-import PeerListSvg from '../imgs/peerlist.svg';
-import PeerListDarkSvg from '../imgs/peerlist-dark.svg';
-import ShopifySvg from '../imgs/shopify.svg';
-import SplunkSvg from '../imgs/splunk.svg';
 import TandenDashImg from '../imgs/tanden-dash.png';
 import PhpipImg from '../imgs/phpip.png';
 import TouchardWashingtonImg from '../imgs/touchard-washington.png';
-import WaterLooImg from '../imgs/waterloo.png';
 const createResumeStore = () => {
 	const { subscribe, set } = writable({});
 
-	const toLocaleString = async (date: Date) => {
-		await waitLocale(); // Ensure the locale is loaded
-		const currentLocale = get(locale) || 'en-US';
+	const toLocaleString = (date: Date) => {
+		const currentLocale = get(locale) || 'fr-FR';
 
 		// Validate the locale
 		const validLocales = ['en-US', 'fr-FR']; // Add other valid locales as needed
-		const localeToUse = validLocales.includes(currentLocale) ? currentLocale : 'en-US';
+		const localeToUse = validLocales.includes(currentLocale) ? currentLocale : 'fr-FR';
+
+		console.log("localeToUse", localeToUse);
 
 		return date.toLocaleString(localeToUse, {
 			month: 'short',
@@ -43,10 +33,7 @@ const createResumeStore = () => {
 		});
 	}
 
-	const updateResume = async () => {
-		await waitLocale();
-
-		const l = get(locale);
+	const updateResume = () => {
 		set({
 			name: 'Axel Deneu',
 			email: 'hello@aden.solutions',
@@ -55,11 +42,11 @@ const createResumeStore = () => {
 			img: 'https://avatars.githubusercontent.com/u/22771331?v=4',
 			location: 'Montval-sur-Loir, France',
 			locationLink: 'https://www.google.com/maps/place/montval-sur-loir',
-			greetings: __('Greetings'),
-			about: __('About'),
-			description: __('Description'),
-			summary: __('Summary'),
-			workExperience: __('Work Experience'),
+			greetings: getText('Greetings'),
+			about: getText('About'),
+			description: getText('Description'),
+			summary: getText('Summary'),
+			workExperience: getText('Work Experience'),
 			avatarUrl: 'https://avatars.githubusercontent.com/u/22771331?v=4',
 			skills: [
 				'PHP',
@@ -85,9 +72,9 @@ const createResumeStore = () => {
 				// 'C++'
 			],
 			navbar: [
-				{ href: '/', icon: HomeIcon, label: __('Home') },
-				// { href: '/blog', icon: NotebookIcon, label: __('Blog') },
-				// { href: '#', icon: CodeIcon, label: __('Projects') }
+				{ href: '/', icon: HomeIcon, label: getText('Home') },
+				// { href: '/blog', icon: NotebookIcon, label: getText('Blog') },
+				// { href: '#', icon: CodeIcon, label: getText('Projects') }
 			],
 			contact: {
 				email: 'hello@aden.solutions',
@@ -124,25 +111,25 @@ const createResumeStore = () => {
 					company: 'MyLittleTrip',
 					href: 'https://mylittletrip.io',
 					badges: [],
-					location: __('Full Remote'),
-					title: __('Lead Web Developer'),
+					location: getText('Full Remote'),
+					title: getText('Lead Web Developer'),
 					logoUrl: MyLittleTripImg,
 					start: toLocaleString(new Date('2022-11-02')),
 					end: toLocaleString(new Date('2024-10-09')),
 					description:
-						__('MyLittleTrip Description')
+						getText('MyLittleTrip Description')
 				},
 				{
 					company: 'MŌDO',
 					badges: [],
 					href: 'https://agence-modo.fr/',
 					location: 'Le Mans, France',
-					title: __('Lead Web Developer'),
+					title: getText('Lead Web Developer'),
 					logoUrl: ModoImg,
 					start: toLocaleString(new Date('2020-10-01')),
 					end: toLocaleString(new Date('2022-11-02')),
 					description:
-						__('Modo Lead Description'),
+						getText('Modo Lead Description'),
 					technologies: ['PHP', 'WordPress', 'Laravel', 'Elementor', 'MySQL', 'Vue.JS', 'jQuery']
 				},
 				{
@@ -150,12 +137,12 @@ const createResumeStore = () => {
 					href: 'https://agence-modo.fr/',
 					badges: [],
 					location: 'Le Mans, France',
-					title: __('Web Developer'),
+					title: getText('Web Developer'),
 					logoUrl: ModoImg,
 					start: toLocaleString(new Date('2019-04-01')),
 					end: toLocaleString(new Date('2020-10-01')),
 					description:
-						__('Modo Description'),
+						getText('Modo Description'),
 					technologies: ['PHP', 'WordPress', 'Laravel', 'Elementor', 'MySQL', 'Vue.JS', 'jQuery']
 				},
 				{
@@ -163,21 +150,21 @@ const createResumeStore = () => {
 					href: 'https://www.gamecash.fr/',
 					badges: [],
 					location: 'Angers, France',
-					title: __('Web Developer'),
+					title: getText('Web Developer'),
 					logoUrl: GamecashImg,
 					start: toLocaleString(new Date('2017-08-01')),
 					end: toLocaleString(new Date('2019-04-01')),
 					description:
-						__('Gamecash Description'),
-					technologies: ['PHP', __('Custom MVC Framework'), 'MySQL', 'LESS', 'jQuery']
+						getText('Gamecash Description'),
+					technologies: ['PHP', getText('Custom MVC Framework'), 'MySQL', 'LESS', 'jQuery']
 				}
 			],
-			educationLabel: __('Education'),
+			educationLabel: getText('Education'),
 			education: [
 				{
 					school: 'IMIE',
 					// href: 'https://buildspace.so',
-					degree: __('IMIE Degree'),
+					degree: getText('IMIE Degree'),
 					logoUrl: ImieImg,
 					start: '2017',
 					end: '2018'
@@ -185,7 +172,7 @@ const createResumeStore = () => {
 				{
 					school: 'LPO Touchard-Washington',
 					href: 'https://www.touchard-washington.fr/',
-					degree: __('BTS Degree'),
+					degree: getText('BTS Degree'),
 					logoUrl: TouchardWashingtonImg,
 					start: '2015',
 					end: '2017'
@@ -193,23 +180,23 @@ const createResumeStore = () => {
 				{
 					school: 'LPO Touchard-Washington',
 					href: 'https://www.touchard-washington.fr/',
-					degree: __('A Level Degree'),
+					degree: getText('A Level Degree'),
 					logoUrl: TouchardWashingtonImg,
 					start: '2013',
 					end: '2015'
 				}
 			],
-			projectsSupLabel: __('My Projects'),
-			projectsLabel: __('Check out my latest work'),
-			projectsDescription: __('I\'m an active open-source contributor and have worked on a variety of projects. Here are a few of my favorites.'),
+			projectsSupLabel: getText('My Projects'),
+			projectsLabel: getText('Check out my latest work'),
+			projectsDescription: getText('I\'m an active open-source contributor and have worked on a variety of projects. Here are a few of my favorites.'),
 			projects: [
 				{
 					title: 'Tanden Dash',
 					href: 'https://github.com/AxelDeneu/tanden-dash',
-					dates: __('July 2024 - Present'),
+					dates: getText('July 2024 - Present'),
 					active: true,
 					description:
-						__('Personal dashboard for home use. Displaying weather, calendar, tasks, and more. Made to be used on a big touch screen.'),
+						getText('Personal dashboard for home use. Displaying weather, calendar, tasks, and more. Made to be used on a big touch screen.'),
 					technologies: [
 						'SvelteKit',
 						'Prisma',
@@ -230,9 +217,9 @@ const createResumeStore = () => {
 				{
 					title: 'phpIP',
 					href: 'https://github.com/jjdejong/phpip',
-					dates: __('September 2024 - Present'),
+					dates: getText('September 2024 - Present'),
 					active: true,
-					description: __('A simple IP management tool written in PHP. Not my project, but I am part of the maintainers.'),
+					description: getText('A simple IP management tool written in PHP. Not my project, but I am part of the maintainers.'),
 					technologies: [
 						'Laravel',
 						'PHP',
@@ -249,13 +236,13 @@ const createResumeStore = () => {
 					image: PhpipImg
 				}
 			],
-			contactLabel: __('Get in Touch'),
-			contactDescription: __('I am always open to new opportunities and collaborations. Feel free to reach out to me via email at')
+			contactLabel: getText('Get in Touch'),
+			contactDescription: getText('I am always open to new opportunities and collaborations. Feel free to reach out to me via email at')
 		});
 	};
 
 	locale.subscribe(() => {
-		updateResume();
+		if (typeof window !== 'undefined') updateResume(); // Vérifie si on est côté client
 	});
 
 	return {

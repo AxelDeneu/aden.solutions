@@ -5,8 +5,9 @@ import { locale, waitLocale } from 'svelte-i18n'
 
 export const prerender = true;
 export const load = async () => {
-	// if (browser) {
-	// 	locale.set(window.navigator.language)
-	// }
+	locale.set('fr-FR')
+	if (browser) {
+		locale.set(window.navigator.language)
+	}
 	await waitLocale()
 }
