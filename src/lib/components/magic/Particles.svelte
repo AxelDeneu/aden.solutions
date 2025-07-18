@@ -1,33 +1,48 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-	import { mode } from "mode-watcher";
+	import { run } from 'svelte/legacy';
 
-	export let className: string = "";
-	export let quantity: number = 100;
-	export let staticity: number = 50;
-	export let ease: number = 50;
-	export let size: number = 0.4;
-	export let refresh: boolean = true;
-	export let color: string = "#ffffff";
-	export let vx: number = 0;
-	export let vy: number = 0;
+	import { onMount } from 'svelte';
 
-	let canvasRef: HTMLCanvasElement;
-	let canvasContainerRef: HTMLDivElement;
+	interface Props {
+		className?: string;
+		quantity?: number;
+		staticity?: number;
+		ease?: number;
+		size?: number;
+		refresh?: boolean;
+		color?: string;
+		vx?: number;
+		vy?: number;
+	}
+
+	let {
+		className = '',
+		quantity = 100,
+		staticity = 50,
+		ease = 50,
+		size = 0.4,
+		refresh = true,
+		color = '#ffffff',
+		vx = 0,
+		vy = 0
+	}: Props = $props();
+
+	let canvasRef: HTMLCanvasElement = $state();
+	let canvasContainerRef: HTMLDivElement = $state();
 	let context: CanvasRenderingContext2D | null = null;
 	let circles: any[] = [];
 	let mouse = { x: 0, y: 0 };
 	let canvasSize = { w: 0, h: 0 };
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
+	const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
 	function hexToRgb(hex: string): number[] {
-		hex = hex.replace("#", "");
+		hex = hex.replace('#', '');
 
 		if (hex.length === 3) {
 			hex = hex
-				.split("")
+				.split('')
 				.map((char) => char + char)
-				.join("");
+				.join('');
 		}
 
 		const hexInt = parseInt(hex, 16);
@@ -60,7 +75,7 @@
 			targetAlpha,
 			dx,
 			dy,
-			magnetism,
+			magnetism
 		};
 	}
 
@@ -89,7 +104,7 @@
 			context.translate(translateX, translateY);
 			context.beginPath();
 			context.arc(x, y, size, 0, 2 * Math.PI);
-			context.fillStyle = `rgba(${rgb.join(", ")}, ${alpha})`;
+			context.fillStyle = `rgba(${rgb.join(', ')}, ${alpha})`;
 			context.fill();
 			context.setTransform(dpr, 0, 0, dpr, 0, 0);
 
@@ -108,8 +123,7 @@
 	}
 
 	function remapValue(value, start1, end1, start2, end2) {
-		let remapped =
-			((value - start1) * (end2 - start2)) / (end1 - start1) + start2;
+		let remapped = ((value - start1) * (end2 - start2)) / (end1 - start1) + start2;
 		return remapped > 0 ? remapped : 0;
 	}
 
@@ -120,12 +134,10 @@
 				circle.x + circle.translateX - circle.size,
 				canvasSize.w - circle.x - circle.translateX - circle.size,
 				circle.y + circle.translateY - circle.size,
-				canvasSize.h - circle.y - circle.translateY - circle.size,
+				canvasSize.h - circle.y - circle.translateY - circle.size
 			];
 			const closestEdge = edge.reduce((a, b) => Math.min(a, b));
-			const remapClosestEdge = parseFloat(
-				remapValue(closestEdge, 0, 20, 0, 1).toFixed(2)
-			);
+			const remapClosestEdge = parseFloat(remapValue(closestEdge, 0, 20, 0, 1).toFixed(2));
 			if (remapClosestEdge > 1) {
 				circle.alpha += 0.02;
 				if (circle.alpha > circle.targetAlpha) {
@@ -136,10 +148,8 @@
 			}
 			circle.x += circle.dx + vx;
 			circle.y += circle.dy + vy;
-			circle.translateX +=
-				(mouse.x / (staticity / circle.magnetism) - circle.translateX) / ease;
-			circle.translateY +=
-				(mouse.y / (staticity / circle.magnetism) - circle.translateY) / ease;
+			circle.translateX += (mouse.x / (staticity / circle.magnetism) - circle.translateX) / ease;
+			circle.translateY += (mouse.y / (staticity / circle.magnetism) - circle.translateY) / ease;
 
 			drawCircle(circle, true);
 
@@ -173,25 +183,25 @@
 
 	onMount(() => {
 		if (canvasRef) {
-			context = canvasRef.getContext("2d");
+			context = canvasRef.getContext('2d');
 			resizeCanvas();
 			animate();
-			window.addEventListener("resize", resizeCanvas);
-			window.addEventListener("mousemove", onMouseMove);
+			window.addEventListener('resize', resizeCanvas);
+			window.addEventListener('mousemove', onMouseMove);
 		}
 
 		return () => {
-			window.removeEventListener("resize", resizeCanvas);
-			window.removeEventListener("mousemove", onMouseMove);
+			window.removeEventListener('resize', resizeCanvas);
+			window.removeEventListener('mousemove', onMouseMove);
 		};
 	});
 
-	$: {
+	run(() => {
 		if (canvasRef) {
 			drawParticles();
 			//   animate();
 		}
-	}
+	});
 	//   Building Stage
 </script>
 
@@ -200,8 +210,8 @@
 </div>
 
 <style>
-    .size-full {
-        width: 100%;
-        height: 100%;
-    }
+	.size-full {
+		width: 100%;
+		height: 100%;
+	}
 </style>
