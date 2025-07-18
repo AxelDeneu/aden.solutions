@@ -18,24 +18,27 @@ Welcome to my personal website, aden.solutions! This site showcases my professio
 To run this project locally, follow these steps:
 
 1. Clone the repository:
-    ```sh
-    git clone https://github.com/AxelDeneu/aden.solutions.git
-    ```
+
+   ```sh
+   git clone https://github.com/AxelDeneu/aden.solutions.git
+   ```
 
 2. Navigate to the project directory:
-    ```sh
-    cd aden.solutions
-    ```
+
+   ```sh
+   cd aden.solutions
+   ```
 
 3. Install the dependencies:
-    ```sh
-    npm install
-    ```
+
+   ```sh
+   npm install
+   ```
 
 4. Start the development server:
-    ```sh
-    npm run dev
-    ```
+   ```sh
+   npm run dev
+   ```
 
 ## Usage
 
