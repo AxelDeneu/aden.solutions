@@ -6,76 +6,28 @@ const testimonials: Testimonials = {
 	description: 'testimonials.description',
 	items: [
 		{
-			name: 'Sarah Chen',
-			role: 'CTO',
-			company: 'TechStartup Inc.',
-			testimonial: 'testimonial.sarah'
+			name: 'Myriam Pezeyre',
+			role: 'Responsable Administrative',
+			company: 'Cabinet Grosset-Fournier & Demachy',
+			testimonial: 'testimonial.myriam'
 		},
 		{
-			name: 'Marc Dubois',
-			role: 'Product Manager',
-			company: 'E-Commerce Solutions',
-			testimonial: 'testimonial.marc'
+			name: 'Amélie Briand',
+			role: 'Coordinatrice Administrative et Financière',
+			company: 'RésOVilles',
+			testimonial: 'testimonial.amelie'
 		},
 		{
-			name: 'Emma Johnson',
-			role: 'Marketing Director',
-			company: 'Digital Agency Pro',
-			testimonial: 'testimonial.emma'
+			name: 'Amandine Thommeret',
+			role: 'Responsable Marketing',
+			company: 'Disposeo',
+			testimonial: 'testimonial.amandine'
 		},
 		{
-			name: 'Thomas Martin',
+			name: 'Claire Yam',
 			role: 'CEO',
-			company: 'MyLittleTrip',
-			testimonial: 'testimonial.thomas'
-		},
-		{
-			name: 'Julia Schmidt',
-			role: 'Tech Lead',
-			company: 'Innovation Labs',
-			testimonial: 'testimonial.julia'
-		},
-		{
-			name: 'Alexandre Petit',
-			role: 'Founder',
-			company: 'SaaS Metrics Pro',
-			testimonial: 'testimonial.alexandre'
-		},
-		{
-			name: 'Sophie Bernard',
-			role: 'Project Manager',
-			company: 'FinTech Solutions',
-			testimonial: 'testimonial.sophie'
-		},
-		{
-			name: 'Michael Thompson',
-			role: 'Head of Engineering',
-			company: 'CloudScale Systems',
-			testimonial: 'testimonial.michael'
-		},
-		{
-			name: 'Marie Leclerc',
-			role: 'UX Designer',
-			company: 'Design Studio Plus',
-			testimonial: 'testimonial.marie'
-		},
-		{
-			name: 'David Anderson',
-			role: 'Operations Director',
-			company: 'LogiTech Express',
-			testimonial: 'testimonial.david'
-		},
-		{
-			name: 'Isabelle Rousseau',
-			role: 'Marketing Manager',
-			company: 'Growth Hackers Agency',
-			testimonial: 'testimonial.isabelle'
-		},
-		{
-			name: 'James Wilson',
-			role: 'CTO',
-			company: 'AI Innovations Ltd',
-			testimonial: 'testimonial.james'
+			company: 'Yamark',
+			testimonial: 'testimonial.claire'
 		}
 	]
 };
