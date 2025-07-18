@@ -15,7 +15,9 @@ const config = {
 		},
 		extend: {
 			animation: {
-				meteor: "meteor 5s linear infinite",
+				meteor: 'meteor 5s linear infinite',
+				marquee: 'marquee var(--duration) linear infinite',
+				'marquee-vertical': 'marquee-vertical var(--duration) linear infinite'
 			},
 			colors: {
 				border: 'hsl(var(--border) / <alpha-value>)',
@@ -35,6 +37,10 @@ const config = {
 					DEFAULT: 'hsl(var(--destructive) / <alpha-value>)',
 					foreground: 'hsl(var(--destructive-foreground) / <alpha-value>)'
 				},
+				success: {
+					DEFAULT: 'hsl(var(--success) / <alpha-value>)',
+					foreground: 'hsl(var(--success-foreground) / <alpha-value>)'
+				},
 				muted: {
 					DEFAULT: 'hsl(var(--muted) / <alpha-value>)',
 					foreground: 'hsl(var(--muted-foreground) / <alpha-value>)'
@@ -50,7 +56,17 @@ const config = {
 				card: {
 					DEFAULT: 'hsl(var(--card) / <alpha-value>)',
 					foreground: 'hsl(var(--card-foreground) / <alpha-value>)'
-				}
+				},
+				sidebar: {
+					DEFAULT: "hsl(var(--sidebar-background))",
+					foreground: "hsl(var(--sidebar-foreground))",
+					primary: "hsl(var(--sidebar-primary))",
+					"primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+					accent: "hsl(var(--sidebar-accent))",
+					"accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+					border: "hsl(var(--sidebar-border))",
+					ring: "hsl(var(--sidebar-ring))",
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -62,17 +78,45 @@ const config = {
 			},
 			keyframes: {
 				meteor: {
-					"0%": { transform: "rotate(215deg) translateX(0)", opacity: 1 },
-					"70%": { opacity: 1 },
-					"100%": {
-						transform: "rotate(215deg) translateX(-500px)",
-						opacity: 0,
+					'0%': { transform: 'rotate(215deg) translateX(0)', opacity: 1 },
+					'70%': { opacity: 1 },
+					'100%': {
+						transform: 'rotate(215deg) translateX(-500px)',
+						opacity: 0
 					}
-				}
+				},
+				marquee: {
+					from: { transform: 'translateX(0)' },
+					to: { transform: 'translateX(calc(-100% - var(--gap)))' }
+				},
+				'marquee-vertical': {
+					from: { transform: 'translateY(0)' },
+					to: { transform: 'translateY(calc(-100% - var(--gap)))' }
+				},
+				"accordion-down": {
+					from: { height: "0" },
+					to: { height: "var(--bits-accordion-content-height)" },
+				},
+				"accordion-up": {
+					from: { height: "var(--bits-accordion-content-height)" },
+					to: { height: "0" },
+				},
+				"caret-blink": {
+					"0%,70%,100%": { opacity: "1" },
+					"20%,50%": { opacity: "0" },
+				},
+				animation: {
+					"accordion-down": "accordion-down 0.2s ease-out",
+					"accordion-up": "accordion-up 0.2s ease-out",
+					"caret-blink": "caret-blink 1.25s ease-out infinite",
+				},
 			}
 		}
 	},
-	plugins: [require('@tailwindcss/typography')]
+	plugins: [
+		require('@tailwindcss/typography'),
+		require('tailwindcss-animate')
+	]
 };
 
 export default config;

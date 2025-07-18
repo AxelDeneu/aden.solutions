@@ -1,54 +1,126 @@
 {
-	"name": "portfolio-template",
-	"version": "0.0.1",
+	"name": "@aden-solutions/portfolio",
+	"version": "1.0.0",
+	"description": "Professional portfolio website built with SvelteKit, TypeScript, and Tailwind CSS",
+	"author": {
+		"name": "Axel Deneu",
+		"email": "hello@aden.solutions",
+		"url": "https://aden.solutions"
+	},
+	"license": "MIT",
 	"private": true,
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/AxelDeneu/aden.solutions"
+	},
+	"homepage": "https://aden.solutions",
+	"keywords": [
+		"portfolio",
+		"sveltekit",
+		"typescript",
+		"tailwindcss",
+		"i18n",
+		"fullstack",
+		"developer"
+	],
+	"engines": {
+		"node": ">=18.0.0",
+		"npm": ">=9.0.0"
+	},
 	"scripts": {
 		"dev": "vite dev",
+		"dev:host": "vite dev --host",
 		"build": "vite build",
+		"build:analyze": "vite build --mode analyze",
 		"preview": "vite preview",
+		"preview:host": "vite preview --host",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"lint": "npm run lint:prettier && npm run lint:eslint",
+		"lint:prettier": "prettier --check .",
+		"lint:eslint": "eslint .",
+		"format": "npm run format:prettier && npm run lint:eslint -- --fix",
+		"format:prettier": "prettier --write .",
+		"test": "echo \"No tests configured yet\"",
+		"test:unit": "echo \"Configure Vitest for unit testing\"",
+		"test:e2e": "echo \"Configure Playwright for E2E testing\"",
+		"clean": "rm -rf .svelte-kit dist build node_modules/.vite",
+		"clean:all": "npm run clean && rm -rf node_modules",
+		"preinstall": "npx only-allow npm",
+		"prepare": "svelte-kit sync",
+		"validate": "npm run check && npm run lint && npm run build"
 	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "^3.0.0",
-		"@sveltejs/adapter-static": "^3.0.8",
-		"@sveltejs/enhanced-img": "^0.3.1",
-		"@sveltejs/kit": "^2.0.0",
-		"@sveltejs/vite-plugin-svelte": "^3.0.0",
-		"@tailwindcss/typography": "^0.5.13",
-		"@types/eslint": "^9.6.0",
-		"autoprefixer": "^10.4.19",
-		"eslint": "^9.0.0",
-		"eslint-config-prettier": "^9.1.0",
-		"eslint-plugin-svelte": "^2.36.0",
-		"globals": "^15.0.0",
-		"mdsvex": "^0.11.2",
-		"postcss": "^8.4.38",
-		"prettier": "^3.1.1",
-		"prettier-plugin-svelte": "^3.1.2",
-		"prettier-plugin-tailwindcss": "^0.6.4",
-		"svelte": "^4.2.7",
-		"svelte-check": "^3.6.0",
-		"tailwindcss": "^3.4.4",
-		"typescript": "^5.0.0",
-		"typescript-eslint": "^8.0.0-alpha.20",
-		"vite": "^5.0.3"
-	},
-	"type": "module",
 	"dependencies": {
-		"bits-ui": "^0.21.12",
+		"@sveltejs/adapter-vercel": "^5.8.0",
+		"chart.js": "^4.5.0",
+		"chartjs-adapter-date-fns": "^3.0.0",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
-		"lucide-svelte": "^0.414.0",
+		"fuse.js": "^7.1.0",
+		"html2pdf.js": "^0.10.3",
 		"marked": "^13.0.2",
-		"mode-watcher": "^0.4.0",
+		"resend": "^4.6.0",
 		"shiki": "^1.11.2",
 		"svelte-i18n": "^4.0.1",
 		"svelte-inview": "^4.0.2",
 		"svelte-motion": "^0.12.2",
 		"tailwind-merge": "^2.5.4",
-		"tailwind-variants": "^0.2.1"
+		"tailwind-variants": "^0.2.1",
+		"tailwindcss-animate": "^1.0.7"
+	},
+	"devDependencies": {
+		"@lucide/svelte": "^0.482.0",
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/adapter-static": "^3.0.8",
+		"@sveltejs/enhanced-img": "^0.3.9",
+		"@sveltejs/kit": "^2.5.27",
+		"@sveltejs/vite-plugin-svelte": "^4.0.0",
+		"@tailwindcss/typography": "^0.5.13",
+		"@types/eslint": "^9.6.0",
+		"@types/node": "^20.0.0",
+		"autoprefixer": "^10.4.19",
+		"bits-ui": "^1.8.0",
+		"eslint": "^9.0.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-svelte": "^2.45.1",
+		"globals": "^15.0.0",
+		"mdsvex": "^0.11.2",
+		"mode-watcher": "^1.1.0",
+		"paneforge": "^1.0.0-next.6",
+		"postcss": "^8.4.38",
+		"prettier": "^3.1.1",
+		"prettier-plugin-svelte": "^3.2.6",
+		"prettier-plugin-tailwindcss": "^0.6.4",
+		"svelte": "^5",
+		"svelte-check": "^4.0.0",
+		"svelte-sonner": "^1.0.5",
+		"tailwindcss": "^3.4.4",
+		"typescript": "^5.5.0",
+		"typescript-eslint": "^8.0.0-alpha.20",
+		"vaul-svelte": "^1.0.0-next.7",
+		"vite": "^5.4.4"
+	},
+	"browserslist": [
+		"defaults",
+		"not IE 11"
+	],
+	"prettier": {
+		"useTabs": true,
+		"singleQuote": true,
+		"trailingComma": "none",
+		"printWidth": 100,
+		"plugins": [
+			"prettier-plugin-svelte",
+			"prettier-plugin-tailwindcss"
+		],
+		"overrides": [
+			{
+				"files": "*.svelte",
+				"options": {
+					"parser": "svelte"
+				}
+			}
+		]
 	}
 }
