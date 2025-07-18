@@ -2,16 +2,27 @@
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { marked } from 'marked';
-	export let title: string;
-	export let description: string;
-	export let dates: string;
-	export let location: string;
-	export let image: string = '';
-	export let links: readonly {
+	interface Props {
+		title: string;
+		description: string;
+		dates: string;
+		location: string;
+		image?: string;
+		links?: readonly {
 		icon?: any;
 		title: string;
 		href: string;
-	}[] = [];
+	}[];
+	}
+
+	let {
+		title,
+		description,
+		dates,
+		location,
+		image = '',
+		links = []
+	}: Props = $props();
 </script>
 
 <li class="relative ml-10 py-4">
@@ -30,7 +41,7 @@
 			<p class="text-sm text-muted-foreground">{location}</p>
 		{/if}
 		{#if description}
-			<span class="prose dark:prose-invert text-sm text-muted-foreground">
+			<span class="prose text-sm text-muted-foreground dark:prose-invert">
 				{@html marked(description)}
 			</span>
 		{/if}
@@ -40,7 +51,7 @@
 			{#each links as link, idx}
 				<a href={link.href}>
 					<Badge key={idx} title={link.title} class="flex gap-2">
-						<svelte:component this={link.icon} class="h-4 w-4 " strokeWidth={1.6} />
+						<link.icon class="h-4 w-4 " strokeWidth={1.6} />
 						{link.title}
 					</Badge>
 				</a>

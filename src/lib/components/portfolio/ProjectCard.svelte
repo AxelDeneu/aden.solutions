@@ -1,79 +1,124 @@
 <script lang="ts">
 	import { marked } from 'marked';
 	import Badge from '../ui/badge/badge.svelte';
+	import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+	import { Github, ExternalLink, Calendar, Clock, Activity } from '@lucide/svelte';
+	import { _ } from 'svelte-i18n';
 
-	let _class = '';
-	export { _class as class };
-	export let title: string;
-	export let href: string = '';
-	export let description: string;
-	export let dates: string;
-	export let tags: readonly string[];
-	export let link: string = '';
-	export let image: string = '';
-	export let video: string = '';
-	export let links: { icon: any; type: string; href: string }[] = [];
+	
+	interface Props {
+		class?: string;
+		title: string;
+		href?: string;
+		description: string;
+		dates: string;
+		tags: readonly string[];
+		link?: string;
+		image?: string;
+		video?: string;
+		links?: { icon: any; type: string; href: string }[];
+		active?: boolean;
+	}
+
+	let {
+		class: _class = '',
+		title,
+		href = '',
+		description,
+		dates,
+		tags,
+		link = '',
+		image = '',
+		video = '',
+		links = [],
+		active = false
+	}: Props = $props();
+
+	// Icon mapping for serializable data
+	const iconMap = {
+		Github,
+		ExternalLink
+	};
+
+	function getIconComponent(iconName: string) {
+		return iconMap[iconName as keyof typeof iconMap] || ExternalLink;
+	}
 </script>
 
-<!-- Card -->
-<div
-	class="flex h-full flex-col overflow-hidden border transition-all duration-300 ease-out hover:shadow-lg rounded-lg bg-card text-card-foreground"
->
-	<a href={href || '#'} class="block cursor-pointer" rel="nofollow">
-		{#if video}
-			<video
-				class="pointer-events-none mx-auto h-40 w-full object-cover object-top"
-				src={video}
-				autoplay
-				loop
-				muted
-			></video>
-		{:else}
-			<img class="h-40 w-full overflow-hidden object-cover object-top" src={image} alt={title} />
-		{/if}
-	</a>
-	<!-- Card Header -->
-	<div class="px-2 flex flex-col">
-		<div class="space-y-1">
-			<!-- Card Title -->
-			<div class="mt-1 text-base">{title}</div>
-			<time class="font-sans text-xs">{dates}</time>
-			<div class="hidden font-sans text-xs underline print:visible">
-				{link?.replace('https://', '').replace('www.', '').replace('/', '')}
-			</div>
-			<div
-				class="prose dark:prose-invert max-w-full text-pretty font-sans text-xs text-muted-foreground"
-			>
-				{@html marked(description)}
-			</div>
+<Card class="h-full transition-shadow hover:shadow-lg {_class}">
+	{#if video || image}
+		<div class="aspect-video overflow-hidden rounded-t-lg">
+			{#if video}
+				<video
+					class="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+					src={video}
+					autoplay
+					loop
+					muted
+					aria-label="Demo video for {title}"
+				></video>
+			{:else}
+				<img
+					class="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+					src={image}
+					alt="{title} project screenshot"
+				/>
+			{/if}
 		</div>
-	</div>
-	<!-- Card Content -->
-	<div class="mt-auto flex flex-col px-2 text-pretty font-sans text-sm text-muted-foreground">
+	{/if}
+
+	<CardHeader class="p-4 sm:p-6">
+		<div class="mb-2 flex items-center justify-between text-xs sm:text-sm text-muted-foreground">
+			<span class="flex items-center gap-1">
+				<Calendar class="h-3 w-3 sm:h-4 sm:w-4" />
+				{dates}
+			</span>
+			{#if active}
+				<Badge variant="success" class="text-[10px] sm:text-xs">
+					<Activity class="mr-1 h-2.5 w-2.5 sm:h-3 sm:w-3" />
+					{$_('projects.badge.active')}
+				</Badge>
+			{/if}
+		</div>
+		<CardTitle class="line-clamp-2">{title}</CardTitle>
+		<CardDescription class="line-clamp-3">
+			{@html marked(description)}
+		</CardDescription>
+	</CardHeader>
+
+	<CardContent>
+		<!-- Technologies -->
 		{#if tags && tags.length > 0}
-			<div class="mt-2 flex flex-wrap gap-1">
+			<div class="mb-4 flex flex-wrap gap-2">
 				{#each tags as tag}
-					<Badge class="rounded-[4px] px-1 py-0 text-[10px]" variant="secondary">
-						{tag}
-					</Badge>
+					<Badge variant="secondary">{tag}</Badge>
 				{/each}
 			</div>
 		{/if}
-	</div>
-	<!-- Card Footer -->
-	<div class="px-2 pb-2 flex items-center pt-2">
+
+		<!-- Project Links -->
 		{#if links && links.length > 0}
-			<div class="flex flex-row flex-wrap items-start gap-1">
+			<div class="flex flex-wrap gap-2">
 				{#each links as link}
-					<a href={link?.href} target="_blank">
-						<Badge class="flex gap-1 px-2 py-1 text-[10px] items-center justify-center">
-							<!-- {link.icon} -->
-							<svelte:component this={link.icon} class="size-3 mb-px" strokeWidth={1.6} />
-							{link.type}
+					<a
+						href={link?.href}
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="{link.type} link for {title}"
+						class="inline-flex"
+					>
+						<Badge variant="outline" class="flex items-center gap-1">
+							{@const SvelteComponent = typeof link.icon === 'string' ? getIconComponent(link.icon) : link.icon}
+							<SvelteComponent
+								class="h-3 w-3"
+								strokeWidth={1.6}
+								aria-hidden="true"
+							/>
+							{$_(link.type)}
 						</Badge>
 					</a>
 				{/each}
 			</div>
 		{/if}
-	</div>
-</div>
+	</CardContent>
+</Card>

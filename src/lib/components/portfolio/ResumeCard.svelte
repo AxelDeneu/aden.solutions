@@ -2,19 +2,33 @@
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Badge } from '$lib/components/ui/badge';
 	import { cn } from '$lib/utils';
-	import { ChevronRightIcon } from 'lucide-svelte';
+	import { ChevronRightIcon } from '@lucide/svelte';
 	import { quartOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';
-	export let logoUrl: string = '';
-	export let company: string = '';
-	export let title: string = '';
-	export let subtitle: string = '';
-	export let href: string = '';
-	export let badges: string[]=[''];
-	export let description: string = '';
-	export let start: string = '';
-	export let end: string = '';
-	let isExpanded = false;
+	interface Props {
+		logoUrl?: string;
+		company?: string;
+		title?: string;
+		subtitle?: string;
+		href?: string;
+		badges?: string[];
+		description?: string;
+		start?: string;
+		end?: string;
+	}
+
+	let {
+		logoUrl = '',
+		company = '',
+		title = '',
+		subtitle = '',
+		href = '',
+		badges = [''],
+		description = '',
+		start = '',
+		end = ''
+	}: Props = $props();
+	let isExpanded = $state(false);
 
 	let handleClick = (e: MouseEvent) => {
 		if (description) {
@@ -24,7 +38,7 @@
 	};
 </script>
 
-<a href={href || '#'} on:click={handleClick}>
+<a href={href || '#'} onclick={handleClick}>
 	<div class="flex rounded-lg bg-card text-card-foreground">
 		<div class="flex-none">
 			<Avatar.Root class="bg-muted-background m-auto size-12 border dark:bg-foreground">
@@ -32,7 +46,7 @@
 				<Avatar.Fallback>{company[0]}</Avatar.Fallback>
 			</Avatar.Root>
 		</div>
-		<div class="group ml-4 flex flex-grow flex-col justify-center items-between">
+		<div class="items-between group ml-4 flex flex-grow flex-col justify-center">
 			<div class="flex flex-col justify-center">
 				<div class="flex items-center justify-between gap-x-2 text-base">
 					<h3
