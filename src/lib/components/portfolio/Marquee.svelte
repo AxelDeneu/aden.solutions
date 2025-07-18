@@ -1,61 +1,54 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-	import { mode } from 'mode-watcher';
+	import { cn } from '$lib/utils';
 
-	export let logos: string[] = [];
+	interface Props {
+		pauseOnHover?: boolean;
+		vertical?: boolean;
+		repeat?: number;
+		reverse?: boolean;
+		class?: any;
+		children?: import('svelte').Snippet;
+	}
 
-	let track;
-	let duplicatedLogos = [];
-	let isDarkMode = false;
-
-	onMount(() => {
-		mode.subscribe((newMode) => {
-			isDarkMode = newMode === 'dark';
-		});
-
-		const handleTrackWidth = () => {
-			if (track) {
-				const trackWidth = track.scrollWidth > 0 ? track.scrollWidth : 100;
-				const containerWidth = track.parentElement.clientWidth;
-
-				let repeatCount = Math.ceil(containerWidth / trackWidth) + 1;
-				duplicatedLogos = [...Array(repeatCount)].flatMap(() => logos);
-			}
-		};
-
-		handleTrackWidth();
-
-		window.addEventListener('resize', handleTrackWidth);
-		return () => {
-			window.removeEventListener('resize', handleTrackWidth);
-		};
-	});
+	let {
+		pauseOnHover = false,
+		vertical = false,
+		repeat = 4,
+		reverse = false,
+		class: className = '',
+		children
+	}: Props = $props();
+	
 </script>
 
-<div class="relative overflow-hidden w-full">
+<div
+	class={cn(
+		'group relative flex overflow-hidden p-2 [--duration:2s] [--gap:1rem] [gap:var(--gap)]',
+		{
+			'flex-row': !vertical,
+			'flex-col': vertical
+		},
+		className
+	)}
+>
 	<!-- Fade effect for both light and dark modes -->
-	<div class="absolute left-0 top-0 w-1/6 h-full bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
-	<div class="absolute right-0 top-0 w-1/6 h-full bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
+	<div
+		class="pointer-events-none absolute left-0 top-0 z-10 h-full w-[calc(100%_/_8)] bg-gradient-to-r from-background to-transparent"
+	></div>
+	<div
+		class="pointer-events-none absolute right-0 top-0 z-10 h-full w-[calc(100%_/_8)] bg-gradient-to-l from-background to-transparent"
+	></div>
 
-	<!-- Marquee track with logo images -->
-	<div class="flex items-center whitespace-nowrap animate-marquee w-max pointer-events-none" bind:this={track}>
-		{#each duplicatedLogos as logo}
-			<img src={logo} alt="Client Logo" class="h-14 md:h-16 max-w-28 md:max-w-32 object-contain object-center mx-4 md:mx-6 grayscale invert dark:invert-0 py-2 select-none opacity-60"/>
-		{/each}
-	</div>
+	{#each { length: repeat } as _, i (i)}
+		<div
+			class={cn('flex shrink-0 justify-around [gap:var(--gap)]', {
+				'animate-marquee flex-row': !vertical,
+				'animate-marquee-vertical flex-col': vertical,
+				'group-hover:[animation-play-state:paused]': pauseOnHover,
+				'[animation-direction:reverse]': reverse
+			})}
+		>
+			{#if children}{@render children()}{:else}Default{/if}
+		</div>
+	{/each}
 </div>
-
-<style>
-    @keyframes marquee {
-        from {
-            transform: translateX(0);
-        }
-        to {
-            transform: translateX(-50%);
-        }
-    }
-
-    .animate-marquee {
-        animation: marquee 50s linear infinite;
-    }
-</style>
