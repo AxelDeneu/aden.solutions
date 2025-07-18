@@ -2,6 +2,12 @@ import { browser } from '$app/environment';
 import '$lib/i18n'; // Import to initialize. Important :)
 import { locale, waitLocale } from 'svelte-i18n';
 import type { LayoutLoad } from './$types';
+import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+import { injectAnalytics } from '@vercel/analytics/sveltekit'
+import { dev } from '$app/environment';
+
+injectSpeedInsights();
+injectAnalytics({ mode: dev ? 'development' : 'production' });
 
 export const prerender = true;
 export const load: LayoutLoad = async ({ data, url }) => {
