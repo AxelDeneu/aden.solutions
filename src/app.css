@@ -2,6 +2,134 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Responsive utilities */
+@layer utilities {
+	/* Safe area insets for mobile devices */
+	.pb-safe {
+		padding-bottom: env(safe-area-inset-bottom, 0);
+	}
+	
+	.mb-safe {
+		margin-bottom: env(safe-area-inset-bottom, 0);
+	}
+	
+	/* Fluid typography with improved scaling */
+	.text-fluid-xs {
+		font-size: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+		line-height: 1.25rem;
+	}
+	
+	.text-fluid-sm {
+		font-size: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+		line-height: 1.375rem;
+	}
+	
+	.text-fluid-base {
+		font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+		line-height: 1.5rem;
+	}
+	
+	.text-fluid-lg {
+		font-size: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+		line-height: 1.75rem;
+	}
+	
+	.text-fluid-xl {
+		font-size: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+		line-height: 1.875rem;
+	}
+	
+	.text-fluid-2xl {
+		font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+		line-height: 2.25rem;
+	}
+	
+	.text-fluid-3xl {
+		font-size: clamp(1.875rem, 1.5rem + 1.875vw, 2.5rem);
+		line-height: 2.5rem;
+	}
+	
+	.text-fluid-4xl {
+		font-size: clamp(2.25rem, 1.8rem + 2.25vw, 3rem);
+		line-height: 2.75rem;
+	}
+	
+	.text-fluid-5xl {
+		font-size: clamp(3rem, 2.25rem + 3.75vw, 4rem);
+		line-height: 1;
+	}
+	
+	.text-fluid-6xl {
+		font-size: clamp(3.75rem, 2.5rem + 5vw, 5rem);
+		line-height: 1;
+	}
+	
+	/* Responsive heading utilities */
+	.heading-1 {
+		@apply text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl;
+	}
+	
+	.heading-2 {
+		@apply text-xl font-semibold tracking-tight sm:text-2xl md:text-3xl lg:text-4xl;
+	}
+	
+	.heading-3 {
+		@apply text-lg font-semibold sm:text-xl md:text-2xl lg:text-3xl;
+	}
+	
+	.heading-4 {
+		@apply text-base font-medium sm:text-lg md:text-xl lg:text-2xl;
+	}
+	
+	.body-text {
+		@apply text-sm sm:text-base md:text-lg;
+	}
+	
+	.caption-text {
+		@apply text-xs sm:text-sm;
+	}
+	
+	/* Accessibility utilities */
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+	}
+
+	.sr-only-focusable:focus {
+		position: absolute;
+		width: auto;
+		height: auto;
+		padding: 0.5rem;
+		margin: 0;
+		overflow: visible;
+		clip: auto;
+		white-space: normal;
+	}
+
+	.focus-visible:focus {
+		outline: 2px solid var(--primary);
+		outline-offset: 2px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+	}
+}
+
 @layer base {
 	:root {
 		--background: 0 0% 100%;
@@ -20,6 +148,8 @@
 		--accent-foreground: 240 5.9% 10%;
 		--destructive: 0 72.22% 50.59%;
 		--destructive-foreground: 0 0% 98%;
+		--success: 142 71% 45%;
+		--success-foreground: 0 0% 100%;
 		--border: 240 5.9% 90%;
 		--input: 240 5.9% 90%;
 		--ring: 240 5.9% 10%;
@@ -42,6 +172,8 @@
 		--accent-foreground: 0 0% 98%;
 		--destructive: 0 62.8% 30.6%;
 		--destructive-foreground: 0 0% 98%;
+		--success: 142 71% 45%;
+		--success-foreground: 0 0% 100%;
 		--border: 240 3.7% 15.9%;
 		--input: 240 3.7% 15.9%;
 		--ring: 240 4.9% 83.9%;
@@ -52,9 +184,246 @@
 	* {
 		@apply border-border;
 	}
+	
+	html {
+		overflow-x: hidden;
+		scroll-behavior: smooth;
+	}
+	
 	body {
 		@apply bg-background text-foreground;
+		overflow-x: hidden;
+		min-width: 320px; /* Minimum supported width */
+	}
+	
+	/* Prevent horizontal overflow from common issues */
+	img, video, iframe, embed, object {
+		max-width: 100%;
+		height: auto;
+	}
+	
+	/* Ensure pre/code blocks don't overflow */
+	pre, code {
+		overflow-x: auto;
+		word-wrap: break-word;
 	}
 }
 
+/* PDF Generation Styles */
+body.preparing-pdf {
+	background: white !important;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale !important;
+}
 
+body.preparing-pdf * {
+	font-family: inherit !important;
+}
+
+body.preparing-pdf .resume-container {
+	background: white !important;
+	color: black !important;
+	box-shadow: none !important;
+	padding: 20px !important;
+	display: block !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+	min-height: 100vh !important;
+}
+
+body.preparing-pdf .resume-container * {
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
+body.preparing-pdf .resume-content {
+	display: block !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
+/* Force text colors for PDF */
+body.preparing-pdf h1,
+body.preparing-pdf h2,
+body.preparing-pdf h3,
+body.preparing-pdf h4,
+body.preparing-pdf h5,
+body.preparing-pdf h6 {
+	color: #111827 !important;
+	font-weight: bold !important;
+}
+
+body.preparing-pdf p,
+body.preparing-pdf span,
+body.preparing-pdf div {
+	color: #374151 !important;
+}
+
+body.preparing-pdf .text-muted-foreground,
+body.preparing-pdf .text-gray-500,
+body.preparing-pdf .text-gray-600 {
+	color: #6b7280 !important;
+}
+
+/* Fix icon positioning */
+body.preparing-pdf svg {
+	display: inline-block !important;
+	vertical-align: middle !important;
+	margin-top: -2px !important;
+	flex-shrink: 0 !important;
+	width: 16px !important;
+	height: 16px !important;
+}
+
+body.preparing-pdf .flex {
+	display: flex !important;
+}
+
+body.preparing-pdf .items-center {
+	align-items: center !important;
+}
+
+body.preparing-pdf .gap-1 {
+	gap: 0.25rem !important;
+}
+
+body.preparing-pdf .gap-2 {
+	gap: 0.5rem !important;
+}
+
+body.preparing-pdf .gap-4 {
+	gap: 1rem !important;
+}
+
+body.preparing-pdf .gap-6 {
+	gap: 1.5rem !important;
+}
+
+/* Fix specific icon containers */
+body.preparing-pdf .flex.items-center.gap-1 {
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 0.25rem !important;
+}
+
+/* Skills styling for PDF */
+body.preparing-pdf .bg-primary\/10 {
+	background-color: #dbeafe !important;
+	color: #1e40af !important;
+	padding: 0.25rem 0.75rem !important;
+	border-radius: 9999px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+}
+
+body.preparing-pdf .text-primary {
+	color: #2563eb !important;
+}
+
+body.preparing-pdf .border-primary\/20 {
+	border: 1px solid #93c5fd !important;
+}
+
+/* Links for PDF */
+body.preparing-pdf a {
+	color: #2563eb !important;
+	text-decoration: none !important;
+}
+
+body.preparing-pdf a:hover {
+	text-decoration: underline !important;
+}
+
+/* Fix text sizes */
+body.preparing-pdf .text-4xl {
+	font-size: 2.25rem !important;
+	line-height: 2.5rem !important;
+}
+
+body.preparing-pdf .text-xl {
+	font-size: 1.25rem !important;
+	line-height: 1.75rem !important;
+}
+
+body.preparing-pdf .text-lg {
+	font-size: 1.125rem !important;
+	line-height: 1.75rem !important;
+}
+
+body.preparing-pdf .text-sm {
+	font-size: 0.875rem !important;
+	line-height: 1.25rem !important;
+}
+
+/* Hide navigation and non-print elements */
+body.preparing-pdf nav,
+body.preparing-pdf .no-print,
+body.preparing-pdf [class*="loading"],
+body.preparing-pdf [class*="spinner"] {
+	display: none !important;
+}
+
+/* But ensure resume content is never hidden */
+body.preparing-pdf .resume-header,
+body.preparing-pdf .resume-section,
+body.preparing-pdf .resume-content > * {
+	display: block !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
+/* Ensure borders are visible */
+body.preparing-pdf .border,
+body.preparing-pdf .border-b,
+body.preparing-pdf .border-t {
+	border-color: #e5e7eb !important;
+}
+
+/* Card backgrounds */
+body.preparing-pdf .bg-card,
+body.preparing-pdf .bg-gray-50,
+body.preparing-pdf .dark\:bg-gray-800 {
+	background-color: #f9fafb !important;
+}
+
+/* Ensure proper spacing */
+body.preparing-pdf .resume-section {
+	page-break-inside: avoid;
+	break-inside: avoid;
+}
+
+/* Fix margins and paddings */
+body.preparing-pdf .mb-2 {
+	margin-bottom: 0.5rem !important;
+}
+
+body.preparing-pdf .mb-4 {
+	margin-bottom: 1rem !important;
+}
+
+body.preparing-pdf .mb-6 {
+	margin-bottom: 1.5rem !important;
+}
+
+body.preparing-pdf .mb-8 {
+	margin-bottom: 2rem !important;
+}
+
+body.preparing-pdf .mt-4 {
+	margin-top: 1rem !important;
+}
+
+body.preparing-pdf .pb-6 {
+	padding-bottom: 1.5rem !important;
+}
+
+/* Ensure proper list styling */
+body.preparing-pdf ul {
+	list-style-type: disc !important;
+	padding-left: 1.5rem !important;
+}
+
+body.preparing-pdf li {
+	margin-bottom: 0.25rem !important;
+}
