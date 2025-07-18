@@ -32,6 +32,7 @@
 
 	let searchInput = $state(data.activeFilters.search || '');
 	let filteredProjects: EnhancedProject[] = $state(data.projects);
+	let currentLocale = $derived(getCurrentLocale($page.url.pathname));
 
 
 

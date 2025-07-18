@@ -29,6 +29,8 @@
 	let searchInput = $state(data.searchQuery || '');
 	let posts: BlogListItem[] = $state(data.posts);
 	let categories: string[] = $state(data.categories);
+	let currentLocale = $derived(getCurrentLocale($page.url.pathname));
+	let localeCode = $derived(currentLocale === 'en-US' ? 'en' : 'fr');
 
 
 
@@ -90,8 +92,6 @@
 		goto(`${localePath}/blog?${params.toString()}`);
 	}
 	// Re-fetch posts when locale changes
-	let currentLocale = $derived(getCurrentLocale($page.url.pathname));
-	let localeCode = $derived(currentLocale === 'en-US' ? 'en' : 'fr');
 	run(() => {
 		if ($locale) {
 			refreshPosts();
